@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 const dummyUsers = [
-{ username: 'celeb1', password: '123456', role: 'celebrity' },
-{ username: 'celeb2', password: '123456', role: 'celebrity' },
+{ username: 'celeb1', password: '123456', role: 'celeb' },
+{ username: 'celeb2', password: '123456', role: 'celeb' },
 { username: 'public1', password: '123456', role: 'public' },
 ];
 

@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     },
     role : {
         type: String,
-        enum: ['celebrity', 'public'],
+        enum: ['celeb', 'public'],
         required: true,
     },
     followers: [{

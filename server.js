@@ -3,6 +3,7 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
 const connectDB = require('./config/db');
+const path = require('path');
 // const redisClient = require('./config/redis');
 
 require('dotenv').config();
@@ -30,6 +31,8 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/posts', require('./routes/postRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 
 // Socket.io connection

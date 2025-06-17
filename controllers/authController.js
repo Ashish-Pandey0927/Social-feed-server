@@ -37,8 +37,9 @@ exports.login = async (req, res) => {
       return res.status(400).json({ msg: "Invalid username or password" });
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     });
+    console.log("JWT_SECRET being used:", process.env.JWT_SECRET);
     res.json({
       token,
       user: {
@@ -50,5 +51,15 @@ exports.login = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal server error" });
+  }
+};
+
+exports.getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.status(200).json({ success: true, user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
