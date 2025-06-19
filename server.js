@@ -12,7 +12,7 @@ const server = require("http").createServer(app);
 
 // Socket.IO setup
 const allowedOrigins = [
-  'https://social-feed-client.vercel.app/', // ✅ Replace with your actual deployed frontend
+  'https://social-feed-client.vercel.app', // ✅ Replace with your actual deployed frontend
   'http://localhost:3000',
 ];
 
