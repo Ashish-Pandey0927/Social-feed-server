@@ -28,8 +28,8 @@ const io = new Server(server, {
   },
 });
 // Redis clients
-const redisPublisher = new Redis(); // For publishing new_post
-const redisSubscriber = new Redis(); // For listening to new_post
+const redisPublisher = new Redis(process.env.REDIS_URL);
+const redisSubscriber = new Redis(process.env.REDIS_URL); // For listening to new_post
 
 // Connect MongoDB
 connectDB();
