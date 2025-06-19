@@ -12,7 +12,7 @@ const server = require("http").createServer(app);
 
 // Socket.IO setup
 const allowedOrigins = [
-  'https://social-feed-client.vercel.app/', // ✅ Replace with your actual deployed frontend
+  'https://social-feed-client.vercel.app', // ✅ Replace with your actual deployed frontend
   'http://localhost:3000',
 ];
 
@@ -28,8 +28,17 @@ const io = new Server(server, {
   },
 });
 // Redis clients
-const redisPublisher = new Redis(process.env.REDIS_URL);
-const redisSubscriber = new Redis(process.env.REDIS_URL); // For listening to new_post
+const redisPublisher = new Redis(process.env.REDIS_URL, {
+  tls: {}, // Required for Upstash
+  maxRetriesPerRequest: 5,
+  reconnectOnError: () => true,
+});
+
+const redisSubscriber = new Redis(process.env.REDIS_URL, {
+  tls: {}, // Required for Upstash
+  maxRetriesPerRequest: 5,
+  reconnectOnError: () => true,
+});
 
 // Connect MongoDB
 connectDB();
