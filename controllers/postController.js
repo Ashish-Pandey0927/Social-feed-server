@@ -26,21 +26,30 @@ exports.createPost = async (req, res) => {
 
 
 
+
 exports.getFeed = async (req, res) => {
+  const userId = req.user._id;
+  const page = parseInt(req.query.page) || 1;
+  const limit = 3;
+  const skip = (page - 1) * limit;
+
   try {
-    const user = await User.findById(req.user.id).populate('following');
-    const followedCelebIds = user.following
-      .filter(u => u.role === 'celeb')
-      .map(c => c._id);
+    const user = await User.findById(userId);
+    const followingIds = user.following;
 
-    const posts = await Post.find({ author: { $in: followedCelebIds } })
+    const posts = await Post.find({
+      author: { $in: followingIds }
+    })
       .sort({ createdAt: -1 })
-      .populate('author', 'username role');
+      .skip(skip)
+      .limit(limit)
+      .populate("author", "username role");
 
-    res.status(200).json({ success: true, posts });
+    res.json({ posts });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: 'Failed to fetch feed' });
+    res.status(500).json({ msg: "Error fetching feed" });
   }
 };
+
 
