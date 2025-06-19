@@ -11,13 +11,22 @@ const app = express();
 const server = require("http").createServer(app);
 
 // Socket.IO setup
+const allowedOrigins = [
+  'https://social-feed-client.vercel.app/', // ✅ Replace with your actual deployed frontend
+  'http://localhost:3000',
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
   },
 });
-
 // Redis clients
 const redisPublisher = new Redis(); // For publishing new_post
 const redisSubscriber = new Redis(); // For listening to new_post
